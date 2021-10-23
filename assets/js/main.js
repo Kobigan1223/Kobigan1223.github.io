@@ -1,149 +1,149 @@
-/**
-* Template Name: Personal - v2.3.0
-* Template URL: https://bootstrapmade.com/personal-free-resume-bootstrap-template/
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
-!(function($) {
-  ("use strict");
+$(function ($) {
+  "use strict";
 
-  // Nav Menu
-  $(document).on("click", ".nav-menu a, .mobile-nav a", function (e) {
-    if (
-      location.pathname.replace(/^\//, "") ==
-        this.pathname.replace(/^\//, "") &&
-      location.hostname == this.hostname
-    ) {
-      var hash = this.hash;
-      var target = $(hash);
-      if (target.length) {
-        e.preventDefault();
+  jQuery(document).ready(function () {
 
-        if ($(this).parents(".nav-menu, .mobile-nav").length) {
-          $(".nav-menu .active, .mobile-nav .active").removeClass("active");
-          $(this).closest("li").addClass("active");
-        }
+    $(".toggle-icon").on("click", function () {
+      $(".my-navbar").toggleClass("show");
+      $(".mainmenu-area").toggleClass("show");
+    });
 
-        if (hash == "#header") {
-          $("#header").removeClass("header-top");
-          $("section").removeClass("section-show");
-          return;
-        }
+    $("#nav-icon3").click(function () {
+      $(this).toggleClass("open");
+    });
 
-        if (!$("#header").hasClass("header-top")) {
-          $("#header").addClass("header-top");
-          setTimeout(function () {
-            $("section").removeClass("section-show");
-            $(hash).addClass("section-show");
-          }, 350);
-        } else {
-          $("section").removeClass("section-show");
-          $(hash).addClass("section-show");
-        }
+    $(".my-navbar .mynav-item").on("click", function (e) {
+      if (!$(this).hasClass("active")) {
+        var tabNum = $(this).index();
+        var nthChild = tabNum + 2;
+        $(".my-navbar .mynav-item").removeClass("active");
+        $(this).addClass("active");
+        $("#main > section.active").removeClass("active");
+        $("#main > section:nth-child(" + nthChild + ")").addClass("active");
+      }
+      e.preventDefault();
+    });
 
-        $("html, body").animate(
-          {
-            scrollTop: 0,
+    $("#home .pagelink").on("click", function (e) {
+      e.preventDefault();
+      if (e.target.parentNode.id = "g-p-f-h") {
+        $(".my-navbar .mynav-item").removeClass("active");
+        $(".my-navbar .mynav-item.portfolio").addClass("active");
+        $(".my-navbar .mynav-item .portfolio").addClass("active");
+        $(".project-gallery").addClass("active");
+      }
+    });
+
+    //Mixitup js
+    $(".project-gallery").mixItUp();
+
+    /*Typed Activate*/
+    var $typed = $("#typed");
+    if ($typed.length > 0) {
+      $typed.typed({
+        strings: ["Web Design", "Web Development", "UI/UX Design"],
+        stringsElement: null,
+        typeSpeed: 70,
+        startDelay: 150,
+        backSpeed: 40,
+        backDelay: 350,
+        loop: true,
+        loopCount: 550,
+        showCursor: true,
+        cursorChar: "|",
+        attr: null,
+        contentType: "html",
+      });
+    }
+
+    // statistics jquery circle progressbar initialization
+    var $section = $("#statisticsSection");
+    if ($section.length > 0) {
+      $(".progress-circle").loading();
+    }
+
+    $(".lightbox").magnificPopup({
+      type: "image",
+    });
+
+    $(".image-preview").magnificPopup({
+      type: "image",
+      gallery: {
+        enabled: true,
+      },
+    });
+
+    // Ajax On Modal 
+    $(".service-area-wrapper").each(function () {
+      $(this).magnificPopup({
+        delegate: ".service-modal:visible",
+        type: "ajax",
+        tLoading:
+          '<div class="preloader"><div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div></div>',
+        mainClass: "mfp-fade",
+        closeBtnInside: true,
+        midClick: true,
+        gallery: {
+          enabled: true,
+        },
+      });
+    });
+    $('.project-gallery-item').each(function() {
+      $(this).magnificPopup({
+        delegate: '.pp:visible',
+          type: "ajax",
+        tLoading: '<div class="preloader"><div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div></div>',
+        mainClass: "mfp-fade",
+        closeBtnInside: true,
+        midClick: true,
+        gallery: {
+            enabled: true,
           },
-          350
-        );
-
-        if ($("body").hasClass("mobile-nav-active")) {
-          $("body").removeClass("mobile-nav-active");
-          $(".mobile-nav-toggle i").toggleClass(
-            "icofont-navigation-menu icofont-close"
-          );
-          $(".mobile-nav-overly").fadeOut();
-        }
-
-        return false;
-      }
-    }
-  });
-
-  // Mobile Navigation
-  if ($(".nav-menu").length) {
-    var $mobile_nav = $(".nav-menu").clone().prop({
-      class: "mobile-nav d-lg-none",
-    });
-    $("body").append($mobile_nav);
-    $("body").prepend(
-      '<button type="button" class="mobile-nav-toggle d-lg-none"><i class="icofont-navigation-menu"></i></button>'
-    );
-    $("body").append('<div class="mobile-nav-overly"></div>');
-
-    $(document).on("click", ".mobile-nav-toggle", function (e) {
-      $("body").toggleClass("mobile-nav-active");
-      $(".mobile-nav-toggle i").toggleClass(
-        "icofont-navigation-menu icofont-close"
-      );
-      $(".mobile-nav-overly").toggle();
-    });
-
-    $(document).click(function (e) {
-      var container = $(".mobile-nav, .mobile-nav-toggle");
-      if (!container.is(e.target) && container.has(e.target).length === 0) {
-        if ($("body").hasClass("mobile-nav-active")) {
-          $("body").removeClass("mobile-nav-active");
-          $(".mobile-nav-toggle i").toggleClass(
-            "icofont-navigation-menu icofont-close"
-          );
-          $(".mobile-nav-overly").fadeOut();
-        }
-      }
-    });
-  } else if ($(".mobile-nav, .mobile-nav-toggle").length) {
-    $(".mobile-nav, .mobile-nav-toggle").hide();
-  }
-
-  // jQuery counterUp
-  $('[data-toggle="counter-up"]').counterUp({
-    delay: 10,
-    time: 1000,
-  });
-
-  // Skills section
-  $(".skills-content").waypoint(
-    function () {
-      $(".progress .progress-bar").each(function () {
-        $(this).css("width", $(this).attr("aria-valuenow") + "%");
+        callbacks: {
+          ajaxContentAdded: function() {
+            $(".owl-carousel").each(function (index) {
+              var a = $(this);
+              $(this).owlCarousel({
+              autoplay: a.data('autoplay'),
+              center: a.data('center'),
+              autoplayTimeout: a.data('autoplaytimeout'),
+              autoplayHoverPause: a.data('autoplayhoverpause'),
+              loop: a.data('loop'),
+              speed: a.data('speed'),
+              nav: a.data('nav'),
+              dots: a.data('dots'),
+              autoHeight: a.data('autoheight'),
+              autoWidth: a.data('autowidth'),
+              margin: a.data('margin'),
+              stagePadding: a.data('stagepadding'),
+              slideBy: a.data('slideby'),
+              lazyLoad: a.data('lazyload'),
+              navText:['<i class="fa fa-chevron-left"></i>', '<i class="fa fa-chevron-right"></i>'],
+              animateOut: a.data('animateOut'),
+              animateIn: a.data('animateIn'),
+              video: a.data('video'),
+              items: a.data('items'),
+              responsive:{
+                0:{items: a.data('items-xs'),},
+                576:{items: a.data('items-sm'),},
+                768:{items: a.data('items-md'),},
+                992:{items: a.data('items-lg'),}
+              }	
+                      });
+                  });
+              }
+          }
       });
-    },
-    {
-      offset: "80%",
-    }
-  );
-
-  // Porfolio isotope and filter
-  $(window).on("load", function () {
-    var portfolioIsotope = $(".portfolio-container").isotope({
-      itemSelector: ".portfolio-item",
-      layoutMode: "fitRows",
-    });
-
-    $("#portfolio-flters li").on("click", function () {
-      $("#portfolio-flters li").removeClass("filter-active");
-      $(this).addClass("filter-active");
-
-      portfolioIsotope.isotope({
-        filter: $(this).data("filter"),
       });
-    });
+});
+
+  $(window).on('load', function () {
+    /*Preloader*/
+    var preLoder = $("#preloader");
+    preLoder.addClass('hide');
   });
 
-  // Initiate venobox (lightbox feature used in portofilo)
-  $(document).ready(function () {
-    $(".venobox").venobox({
-      share: false,
-    });
-  });
 
-  // Portfolio details carousel
-  $(".portfolio-details-carousel").owlCarousel({
-    autoplay: true,
-    dots: true,
-    loop: true,
-    items: 1,
-  });
-})(jQuery);
 
+
+});
